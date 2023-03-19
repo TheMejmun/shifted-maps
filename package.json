@@ -8,7 +8,7 @@
     "url": "https://github.com/lennerd/shifted-maps/issues"
   },
   "scripts": {
-    "start": "URL=http://localhost:3000/ next"
+    "start": "set URL=http://localhost:3000/ && next"
   },
   "dependencies": {
     "body-scroll-lock": "^3.0.3",
