@@ -20,3 +20,15 @@ If you have any kind of conceptual or technical feedback or found an issues in t
 ## License
 
 [GNU GPL v3.0](LICENSE)
+
+## Fix ERR_OSSL_EVP_UNSUPPORTED
+
+Execute `export NODE_OPTIONS=--openssl-legacy-provider`
+
+## Fix hash something error
+
+Install Node.js 16.20.0
+
+## Fix font crash
+
+Just don't use Firefox I guess
