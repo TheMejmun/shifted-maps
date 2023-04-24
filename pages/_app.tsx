@@ -19,7 +19,7 @@ function getAbsoluteURL(req: IncomingMessage | undefined) {
 
   if (host == null) {
     if (process.env.url == null) {
-      throw new Error('Not able to get absolute URL.');
+      return "localhost:3000"
     }
 
     return process.env.url;
