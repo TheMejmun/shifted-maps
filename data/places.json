@@ -1,0 +1,332 @@
+[
+  {
+    "place": {
+      "id": 325391413,
+      "location": {
+        "lat": 52.494601,
+        "lon": 13.364713
+      },
+      "name": "Anna",
+      "placeType": "user"
+    }
+  },
+  {
+    "place": {
+      "id": 331182647,
+      "location": {
+        "lat": 52.50663540575101,
+        "lon": 13.33216667175293
+      },
+      "name": "Bahnhof Berlin Zoologischer Garten",
+      "placeType": "foursquare"
+    }
+  },
+  {
+    "place": {
+      "id": 328040269,
+      "location": {
+        "lat": 52.391170511,
+        "lon": 13.0655606493
+      },
+      "name": "Friedrich-Engels-Straße, Potsdam",
+      "placeType": "geocode"
+    }
+  },
+  {
+    "place": {
+      "id": 325621393,
+      "location": {
+        "lat": 52.41379141227916,
+        "lon": 13.05100685850842
+      },
+      "name": "FH Potsdam Designhaus",
+      "placeType": "foursquare"
+    }
+  },
+  {
+    "place": {
+      "id": 346599231,
+      "location": {
+        "lat": 52.3914991476058,
+        "lon": 13.0662739276886
+      },
+      "name": "Potsdam Hauptbahnhof",
+      "placeType": "foursquare"
+    }
+  },
+  {
+    "place": {
+      "id": 328261342,
+      "location": {
+        "lat": 52.5501061315,
+        "lon": 13.3529670351
+      },
+      "name": "U-Bahn Station Seestraße",
+      "placeType": "geocode"
+    }
+  },
+  {
+    "place": {
+      "id": 327486225,
+      "location": {
+        "lat": 52.549716,
+        "lon": 13.346283
+      },
+      "name": "Paul",
+      "placeType": "user"
+    }
+  },
+  {
+    "place": {
+      "id": 338287584,
+      "location": {
+        "lat": 52.4975620691,
+        "lon": 13.3637568149
+      },
+      "name": "U-Bahn Station",
+      "placeType": "geocode"
+    }
+  },
+  {
+    "place": {
+      "id": 426052056,
+      "location": {
+        "lat": 52.5026537858,
+        "lon": 13.4143091816
+      },
+      "name": "Oranienstraße 45, Berlin",
+      "placeType": "geocode"
+    }
+  },
+  {
+    "place": {
+      "id": 347478102,
+      "location": {
+        "lat": 52.49907876671769,
+        "lon": 13.36231153785836
+      },
+      "name": "Euroshop",
+      "placeType": "foursquare"
+    }
+  },
+  {
+    "place": {
+      "id": 426325254,
+      "location": {
+        "lat": 52.549258575,
+        "lon": 13.3541869622
+      },
+      "name": "Pizzaladen",
+      "placeType": "geocode"
+    }
+  },
+  {
+    "place": {
+      "id": 426377831,
+      "location": {
+        "lat": 52.4868573972,
+        "lon": 13.4216082355
+      },
+      "name": "Huxleys Neue Welt",
+      "placeType": "geocode"
+    }
+  },
+  {
+    "place": {
+      "id": 426588588,
+      "location": {
+        "lat": 52.551684568,
+        "lon": 13.357780611
+      },
+      "name": "Café Schraders",
+      "placeType": "geocode"
+    }
+  },
+  {
+    "place": {
+      "id": 337738686,
+      "location": {
+        "lat": 52.4932855916,
+        "lon": 13.3683750907
+      },
+      "name": "Yorckstraße 45, Berlin",
+      "placeType": "geocode"
+    }
+  },
+  {
+    "place": {
+      "id": 427015643,
+      "location": {
+        "lat": 52.5237350778,
+        "lon": 13.401939297
+      },
+      "name": "Hackescher Markt 2, Berlin",
+      "placeType": "geocode"
+    }
+  },
+  {
+    "place": {
+      "id": 427025359,
+      "location": {
+        "lat": 52.5259986266,
+        "lon": 13.4017016431
+      },
+      "name": "Gipsstraße 16C, Berlin",
+      "placeType": "geocode"
+    }
+  },
+  {
+    "place": {
+      "id": 379937176,
+      "location": {
+        "lat": 52.5248580648,
+        "lon": 13.4067724837
+      },
+      "name": "Münzstraße 21, Berlin",
+      "placeType": "geocode"
+    }
+  },
+  {
+    "place": {
+      "id": 427025423,
+      "location": {
+        "lat": 52.5222799589,
+        "lon": 13.4084751165
+      },
+      "name": "Rosa-Luxemburg-Straße, Berlin",
+      "placeType": "geocode"
+    }
+  },
+  {
+    "place": {
+      "id": 404428358,
+      "location": {
+        "lat": 52.5034030727,
+        "lon": 13.4099430601
+      },
+      "name": "Modulor",
+      "placeType": "geocode"
+    }
+  },
+  {
+    "place": {
+      "id": 427264744,
+      "location": {
+        "lat": 52.5325175375,
+        "lon": 13.4410274635
+      },
+      "name": "Copy Shop",
+      "placeType": "geocode"
+    }
+  },
+  {
+    "place": {
+      "id": 423739973,
+      "location": {
+        "lat": 52.5498486216,
+        "lon": 13.3583041432
+      },
+      "name": "Pierogarnia",
+      "placeType": "geocode"
+    }
+  },
+  {
+    "place": {
+      "id": 423754621,
+      "location": {
+        "lat": 52.5480378817,
+        "lon": 13.349557903
+      },
+      "name": "Vagabund Brauerei",
+      "placeType": "geocode"
+    }
+  },
+  {
+    "place": {
+      "id": 402797435,
+      "location": {
+        "lat": 52.5122943775,
+        "lon": 13.4104329433
+      },
+      "name": "Evangelische Schule Berlin Zentrum",
+      "placeType": "geocode"
+    }
+  },
+  {
+    "place": {
+      "id": 419231157,
+      "location": {
+        "lat": 52.5113802544,
+        "lon": 13.4635001981
+      },
+      "name": "Bar",
+      "placeType": "geocode"
+    }
+  },
+  {
+    "place": {
+      "id": 419487425,
+      "location": {
+        "lat": 52.5148432125,
+        "lon": 13.4630070654
+      },
+      "name": "Bar",
+      "placeType": "geocode"
+    }
+  },
+  {
+    "place": {
+      "id": 419528110,
+      "location": {
+        "lat": 52.5027871736,
+        "lon": 13.3746667058
+      },
+      "name": "Koethener Brücke, Berlin",
+      "placeType": "geocode"
+    }
+  },
+  {
+    "place": {
+      "id": 420100101,
+      "location": {
+        "lat": 52.5001257146,
+        "lon": 13.3628649731
+      },
+      "name": "Potsdamer Straße 118, Berlin",
+      "placeType": "geocode"
+    }
+  },
+  {
+    "place": {
+      "id": 334501527,
+      "location": {
+        "lat": 52.5489776406,
+        "lon": 13.3488161795
+      },
+      "name": "Seestraße 102, Berlin",
+      "placeType": "geocode"
+    }
+  },
+  {
+    "place": {
+      "id": 409296895,
+      "location": {
+        "lat": 52.549716,
+        "lon": 13.346283
+      },
+      "name": "Peter",
+      "placeType": "geocode"
+    }
+  },
+  {
+    "place": {
+      "id": 364270891,
+      "location": {
+        "lat": 52.5423017374,
+        "lon": 13.3568165557
+      },
+      "name": "Ware Schönheit",
+      "placeType": "user"
+    }
+  }
+]

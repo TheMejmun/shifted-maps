@@ -7,3 +7,12 @@ export type DiaryData = ReadonlyArray<{
   stay?: IStayData;
   trip?: ITripData;
 }>;
+
+export type DiaryPlaceData = ReadonlyArray<{
+  place?: IPlaceData;
+}>;
+
+export type DiaryUserData = ReadonlyArray<{
+  stay?: IStayData;
+  trip?: ITripData;
+}>;
