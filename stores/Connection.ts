@@ -5,7 +5,7 @@ import Place from './Place';
 import Trip from './Trip';
 
 class Connection {
-  static createId(from: Place, to: Place): string {
+  static createId(from: Place, to: Place, user: boolean): string { // True = user, False = friend
     if (from === to) {
       throw new Error('Cannot create id with same places.');
     }
@@ -14,7 +14,7 @@ class Connection {
       return `${from.id}-${to.id}`;
     }
 
-    return this.createId(to, from);
+    return this.createId(to, from, user);
   }
 
   readonly store: DataStore;
@@ -22,13 +22,16 @@ class Connection {
   readonly from: Place;
   readonly to: Place;
   readonly trips: Trip[] = [];
+  readonly user: boolean
 
-  constructor(store: DataStore, id: string, from: Place, to: Place) {
+  constructor(store: DataStore, id: string, from: Place, to: Place, user: boolean) {
     this.store = store;
 
     this.id = id;
     this.from = from;
     this.to = to;
+
+    this.user = user
   }
 
   @computed
