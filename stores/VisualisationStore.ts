@@ -154,7 +154,6 @@ class VisualisationStore {
 
       placeCircles.push(placeCircle);
     });
-
     return (this.placeCirclesCache = placeCircles);
   }
 
@@ -168,9 +167,9 @@ class VisualisationStore {
     });
 
     this.data.connections.forEach(connection => {
-      let from = this.placeCircles.find(placeCircle => placeCircle.place === connection.from);
-      let to = this.placeCircles.find(placeCircle => placeCircle.place === connection.to);
-      let user = connection.user;
+      let from = this.placeCircles.find(placeCircle => placeCircle.place.id === connection.from.id);
+      let to = this.placeCircles.find(placeCircle => placeCircle.place.id === connection.to.id);
+      const user = connection.user;
 
       if (from == null || to == null) {
         throw new Error('Missing place circle');
@@ -190,7 +189,6 @@ class VisualisationStore {
       }
 
       const key = Connection.createId(from.place, to.place, user);
-      // TODO WIP: last changes
       let connectionLine = connectionLines.find(connectionLine => connectionLine.key === key);
       let newConnectionLine = false;
 
@@ -210,7 +208,6 @@ class VisualisationStore {
 
       connectionLine.connections.push(connection);
     });
-
     return (this.connectionLinesCache = connectionLines);
   }
 
@@ -218,11 +215,11 @@ class VisualisationStore {
   get initialBounds() {
     const emptyBounds = latLngBounds([]);
 
-    if (this.data.places.length === 0) {
+    if (this.data.newPlaces.length === 0) {
       return emptyBounds;
     }
 
-    return this.data.places
+    return this.data.newPlaces
         .reduce((bounds, place) => {
           bounds.extend(place.latLng);
 

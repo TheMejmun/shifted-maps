@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import { Browser } from 'leaflet';
 import { observer } from 'mobx-react';
-import { useMemo, useRef } from 'react';
+import React, { useMemo, useRef } from 'react';
 import styled from 'styled-components';
 import PlaceCircle from '../../stores/PlaceCircle';
 import round from '../../stores/utils/round';
@@ -58,6 +58,8 @@ const PlaceCircleMap = observer(({ className, placeCircle, vis }: PlaceCircleMap
       <defs>
         <clipPath id={clipPathId}>
           <circle r={radius} cx={imageRadius} cy={imageRadius} />
+          {/* First circle with blue border */}
+
         </clipPath>
       </defs>
       {images.map(image => (

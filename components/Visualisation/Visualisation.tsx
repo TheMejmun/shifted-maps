@@ -3,7 +3,7 @@ import debounce from 'lodash/fp/debounce';
 import isEqual from 'lodash/fp/isEqual';
 import { configure } from 'mobx';
 import { observer } from 'mobx-react';
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import useTouch from '../../hooks/useTouch';
 import useWidth from '../../hooks/useWidth';
@@ -87,7 +87,6 @@ function useDebounceCallback<T extends (...args: any) => any>(callback: T, delay
 
 const Visualisation = observer((props: VisualisationProps) => {
     const { view, data, placesData, userData, friendData, timeSpan, className, mapView, onMapViewChange, onTimeSpanChange, onViewChange } = props;
-
     // Use memo to no reinitialize stores on every render.
     // TODO Use useRef with dependency array for semantic guarantee.
     // See https://reactjs.org/docs/hooks-reference.html#usememo
