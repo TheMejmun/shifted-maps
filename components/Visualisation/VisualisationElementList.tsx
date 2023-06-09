@@ -5,6 +5,7 @@ import VisualisationStore from '../../stores/VisualisationStore';
 import ConnectionLine from './ConnectionLine';
 import PlaceCircle from './PlaceCircle';
 import { DEVICE } from './Visualisation';
+import React from "react";
 
 interface VisualisationElementListProps {
   vis: VisualisationStore;

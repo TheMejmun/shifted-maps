@@ -1,8 +1,11 @@
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import { useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { MapView } from '../components/Visualisation/Visualisation';
 import data from '../data/demo.json';
+import lucija from '../data/lucija.json'
+import saman from '../data/saman.json'
+import places from '../data/places.json'
 import { VIEW } from '../stores/UIStore';
 
 const DynamicVisualisation = dynamic({
@@ -10,7 +13,7 @@ const DynamicVisualisation = dynamic({
   loading: () => null,
   ssr: false,
 });
-
+// TODO issues with double rendering Datastore? Cycle
 const Map = () => {
   const router = useRouter();
   let view: VIEW | undefined;
@@ -87,10 +90,12 @@ const Map = () => {
     },
     [router]
   );
-
   return (
     <DynamicVisualisation
       data={data}
+      placesData={places}
+      userData={saman}
+      friendData={lucija}
       view={view}
       timeSpan={timeSpan}
       mapView={mapView}

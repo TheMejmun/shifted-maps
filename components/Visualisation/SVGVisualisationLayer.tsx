@@ -3,6 +3,7 @@ import VisualisationStore from '../../stores/VisualisationStore';
 import SVGLayer from './SVGLayer';
 import { DEVICE } from './Visualisation';
 import VisualisationElementList from './VisualisationElementList';
+import React from "react";
 
 interface SVGVisualisationLayerProps {
   vis: VisualisationStore;

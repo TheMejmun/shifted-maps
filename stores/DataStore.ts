@@ -25,42 +25,16 @@ class DataStore {
   }
 
   @computed
-  get places() {
-    const places: Place[] = [];
-
-    this.data.forEach(item => {
-      if (item.place != null && isPlaceData(item.place)) {
-        places.push(new Place(this, item.place));
-      }
-    });
-
-    return places;
-  }
-
-  @computed
   get newPlaces() {
     const placesAll: Place[] = [];
 
     this.placesData.forEach(item => {
       if (item.place != null && isPlaceData(item.place)) {
-        placesAll.push(new Place(this, item.place));
+        const place = new Place(this, item.place)
+        placesAll.push(place);
       }
     });
-
     return placesAll;
-  }
-
-  @computed
-  get stays() {
-    const stays: Stay[] = [];
-
-    this.data.forEach(item => {
-      if (item.stay != null && isStayData(item.stay)) {
-        stays.push(new Stay(this, item.stay));
-      }
-    });
-
-    return stays;
   }
 
   @computed
@@ -87,6 +61,11 @@ class DataStore {
     });
 
     return staysFriend;
+  }
+
+  @computed
+  get stays() {
+    return this.newStaysUser.concat(this.newStaysFriend);
   }
 
   @computed
@@ -131,29 +110,6 @@ class DataStore {
   @computed
   get connections() {
     const connections: { [id: string]: Connection } = {};
-
-    // this.trips.forEach(trip => {
-    //   // Ignore trips where start and end is at the same place.
-    //   if (trip.from === trip.to || trip.from.latLng.equals(trip.to.latLng)) {
-    //     return;
-    //   }
-    //
-    //   // Ignore tips where a to or from properties are not been resolved
-    //   if (trip.from == null || trip.to == null) {
-    //     return;
-    //   }
-    //
-    //   const id = Connection.createId(trip.from, trip.to);
-    //   let connection = connections[id];
-    //
-    //   if (connection == null) {
-    //     connection = new Connection(this, id, trip.from, trip.to);
-    //     connections[id] = connection;
-    //   }
-    //
-    //   connection.trips.push(trip);
-    // });
-
 
     this.newTripsUser.forEach(trip => {
       // Ignore trips where start and end is at the same place.
@@ -222,7 +178,7 @@ class DataStore {
 
   @computed
   get visiblePlaces() {
-    return this.places.filter(place => place.visible);
+    return this.newPlaces.filter(place => place.visible);
   }
 
   @computed
