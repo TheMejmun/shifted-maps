@@ -12,7 +12,7 @@ object Time {
     const val MONTHS = DAYS * 30L
     const val YEARS = DAYS * 365L
 
-    fun randomTime(): Long {
-        return abs(Random.nextLong())
+    fun randomTime(from: Long = 30 * YEARS, until: Long = 60 * YEARS): Long {
+        return abs(Random.nextLong(from = from, until = until))
     }
 }

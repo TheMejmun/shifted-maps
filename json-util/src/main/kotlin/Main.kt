@@ -137,6 +137,6 @@ fun generateRandomUsers(vararg names: String) {
 
 fun main(args: Array<String>) {
     extractPlaces()
-    generateRandomUsers("Phil", "Sam", "Anton", "Jihae")
+    generateRandomUsers("Saman", "Lucija", "Phil", "Sam", "Anton", "Jihae")
     println("Done!")
 }
