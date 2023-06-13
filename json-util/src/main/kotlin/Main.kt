@@ -12,6 +12,8 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.random.Random
 
+const val MAX_ACTIVITY_DURATION = 12 * Time.HOURS
+
 // Extract all places from dataset
 fun extractPlaces(from: String = "demo.json", to: String = "places.json") {
     val input = IO.read(from)
@@ -26,7 +28,7 @@ fun extractPlaces(from: String = "demo.json", to: String = "places.json") {
 // Generate new users out of the place info and a random time
 fun generateRandomUsers(vararg names: String) {
     val timeframeStart = Time.randomTime()
-    val timeframeEnd = timeframeStart + 1 * Time.MONTHS
+    val timeframeEnd = timeframeStart + 3 * Time.MONTHS
 
     val places = IO.read("places.json")
         .filter { it.place != null }
@@ -45,11 +47,30 @@ fun generateRandomUsers(vararg names: String) {
             // Max one day per action, min 10 minutes
             var duration = Random.nextLong(
                 from = 10 * Time.MINUTES,
-                until = 1 * Time.DAYS
+                until = MAX_ACTIVITY_DURATION
             )
             duration = min(duration, timeframeEnd - currentTime)
 
+            val usedPlaces = places.filter { place ->
+                userdata
+                    .filter { entity -> entity.trip != null }
+                    .map { it.trip!! }
+                    .any { it.from == place.id || it.to == place.id }
+            }
+            val unusedPlaces = places.filter { place ->
+                usedPlaces.none { it.id == place.id }
+            }
+
+//            println(unusedPlaces.size)
+
+            // Because a Trip + Stay can at most last 2 Days
+            // if unused * 2d >= the remaining time, pick an unused place
+            val pickUnusedPlaceNext =
+                (unusedPlaces.size * 2 * MAX_ACTIVITY_DURATION + MAX_ACTIVITY_DURATION) >= (timeframeEnd - currentTime)
+                        && unusedPlaces.isNotEmpty()
+
             val willEnd = currentTime + duration >= timeframeEnd
+
             if (willEnd) {
                 if (userdata.lastOrNull()?.stay != null) {
                     // Extend last stay
@@ -84,7 +105,11 @@ fun generateRandomUsers(vararg names: String) {
                 if (userdata.lastOrNull()?.stay != null) {
                     // Attach trip to end of stay
                     val p1 = places.find { it.id == userdata.last().stay!!.at }!!
-                    val p2 = places.random()
+                    val p2 = if (pickUnusedPlaceNext) {
+                        unusedPlaces.random()
+                    } else {
+                        places.random()
+                    }
                     userdata.add(
                         Entity(
                             trip = Trip(
@@ -130,6 +155,17 @@ fun generateRandomUsers(vararg names: String) {
 
             currentTime += duration
         } while (currentTime < timeframeEnd)
+
+        println(
+            "Done! Unused places: ${
+                places.filter { place ->
+                    userdata
+                        .filter { entity -> entity.trip != null }
+                        .map { it.trip!! }
+                        .none { it.from == place.id || it.to == place.id }
+                }.size
+            }"
+        )
 
         IO.write(userdata, filename)
     }

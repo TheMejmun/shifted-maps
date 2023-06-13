@@ -4,6 +4,7 @@ export enum VIEW {
   GEOGRAPHIC,
   DURATION,
   FREQUENCY,
+  TRAJECTORIES
 }
 
 class UIStore {

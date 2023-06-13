@@ -28,6 +28,10 @@ class ConnectionLineLabel {
       return formatDuration(this.connectionLine.visibleDuration);
     }
 
+    if (view === VIEW.TRAJECTORIES) {
+      return formatFrequency(this.connectionLine.visibleFrequencyRelative);
+    }
+
     return null;
   }
 

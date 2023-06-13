@@ -1,15 +1,15 @@
-import { LeafletEvent, Map as LeafletMap } from 'leaflet';
+import {LeafletEvent, Map as LeafletMap} from 'leaflet';
 import debounce from 'lodash/fp/debounce';
 import isEqual from 'lodash/fp/isEqual';
-import { configure } from 'mobx';
-import { observer } from 'mobx-react';
-import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import {configure} from 'mobx';
+import {observer} from 'mobx-react';
+import React, {useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState} from 'react';
 import styled from 'styled-components';
 import useTouch from '../../hooks/useTouch';
 import useWidth from '../../hooks/useWidth';
 import DataStore from '../../stores/DataStore';
-import { DiaryData, DiaryUserData, DiaryPlaceData } from '../../stores/Diary';
-import UIStore, { VIEW } from '../../stores/UIStore';
+import {DiaryData, DiaryUserData, DiaryPlaceData} from '../../stores/Diary';
+import UIStore, {VIEW} from '../../stores/UIStore';
 import VisualisationStore from '../../stores/VisualisationStore';
 import FilterToolbar from './FilterToolbar/FilterToolbar';
 import Map from './Map';
@@ -29,6 +29,7 @@ interface VisualisationProps {
     placesData: DiaryPlaceData;
     userData: DiaryUserData;
     friendData: DiaryUserData;
+    publicData: DiaryUserData[];
     mapView?: MapView;
     view?: VIEW;
     timeSpan?: ReadonlyArray<number>;
@@ -48,7 +49,7 @@ function createMapView(map: LeafletMap): MapView {
     const center = map.getCenter();
     const zoom = map.getZoom();
 
-    return { center: [center.lat, center.lng], zoom };
+    return {center: [center.lat, center.lng], zoom};
 }
 
 function useDevice(defaultDevice: DEVICE): [DEVICE, (width: number) => void] {
@@ -86,16 +87,29 @@ function useDebounceCallback<T extends (...args: any) => any>(callback: T, delay
 }
 
 const Visualisation = observer((props: VisualisationProps) => {
-    const { view, data, placesData, userData, friendData, timeSpan, className, mapView, onMapViewChange, onTimeSpanChange, onViewChange } = props;
+    const {
+        view,
+        data,
+        placesData,
+        userData,
+        friendData,
+        publicData,
+        timeSpan,
+        className,
+        mapView,
+        onMapViewChange,
+        onTimeSpanChange,
+        onViewChange
+    } = props;
     // Use memo to no reinitialize stores on every render.
     // TODO Use useRef with dependency array for semantic guarantee.
     // See https://reactjs.org/docs/hooks-reference.html#usememo
     const uiStore = useMemo(() => new UIStore(), []);
-    const dataStore = useMemo(() => new DataStore(uiStore, data, placesData, userData, friendData), [uiStore, data]);
+    const dataStore = useMemo(() => new DataStore(uiStore, data, placesData, userData, friendData, publicData), [uiStore, data]);
     const visStore = useMemo(() => new VisualisationStore(uiStore, dataStore), [uiStore, dataStore]);
 
     useLayoutEffect(() => {
-        uiStore.update({ view, timeSpan });
+        uiStore.update({view, timeSpan});
     }, [uiStore, view, timeSpan]);
 
     useEffect(
@@ -158,9 +172,9 @@ const Visualisation = observer((props: VisualisationProps) => {
         visStore.deactivateElement();
     }, [visStore]);
 
-    const { initialBounds } = visStore;
-    const listener = touch ? { onClick: handleClick } : {};
-    const mapProps = mapView != null ? mapView : { bounds: initialBounds };
+    const {initialBounds} = visStore;
+    const listener = touch ? {onClick: handleClick} : {};
+    const mapProps = mapView != null ? mapView : {bounds: initialBounds};
 
     return (
         <div ref={measureRef} className={className} {...listener}>
@@ -174,7 +188,7 @@ const Visualisation = observer((props: VisualisationProps) => {
                 onResize={handleMapViewDidChange}
                 onZoomStart={handleZoomStart}
             >
-                <SVGVisualisationLayer vis={visStore} touch={touch} device={device} />
+                <SVGVisualisationLayer vis={visStore} touch={touch} device={device}/>
             </Map>
             <FilterToolbar
                 ui={uiStore}
