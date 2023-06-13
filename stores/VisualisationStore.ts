@@ -43,9 +43,9 @@ class VisualisationStore {
   maxPlaceCircleRadius?: number;
 
   toggle = debounce(50)(
-    action((element: VisualisationElement, active: boolean = !element.active) => {
-      this.activeElement = active ? element : null;
-    })
+      action((element: VisualisationElement, active: boolean = !element.active) => {
+        this.activeElement = active ? element : null;
+      })
   );
 
   private placeCirclesCache: PlaceCircle[] = [];
@@ -142,10 +142,10 @@ class VisualisationStore {
   }
 
   @computed
-  get placeCircles() {
+  get placeCircles() { // here change places to have different colors
     const placeCircles: PlaceCircle[] = [];
 
-    this.data.places.forEach(place => {
+    this.data.newPlaces.forEach(place => {
       let placeCircle = this.placeCirclesCache.find(placeCircle => placeCircle.place === place);
 
       if (placeCircle == null) {
@@ -154,7 +154,6 @@ class VisualisationStore {
 
       placeCircles.push(placeCircle);
     });
-
     return (this.placeCirclesCache = placeCircles);
   }
 
@@ -168,8 +167,9 @@ class VisualisationStore {
     });
 
     this.data.connections.forEach(connection => {
-      let from = this.placeCircles.find(placeCircle => placeCircle.place === connection.from);
-      let to = this.placeCircles.find(placeCircle => placeCircle.place === connection.to);
+      let from = this.placeCircles.find(placeCircle => placeCircle.place.id === connection.from.id);
+      let to = this.placeCircles.find(placeCircle => placeCircle.place.id === connection.to.id);
+      const user = connection.user;
 
       if (from == null || to == null) {
         throw new Error('Missing place circle');
@@ -188,7 +188,7 @@ class VisualisationStore {
         return;
       }
 
-      const key = Connection.createId(from.place, to.place);
+      const key = Connection.createId(from.place, to.place, user);
       let connectionLine = connectionLines.find(connectionLine => connectionLine.key === key);
       let newConnectionLine = false;
 
@@ -208,7 +208,6 @@ class VisualisationStore {
 
       connectionLine.connections.push(connection);
     });
-
     return (this.connectionLinesCache = connectionLines);
   }
 
@@ -216,17 +215,17 @@ class VisualisationStore {
   get initialBounds() {
     const emptyBounds = latLngBounds([]);
 
-    if (this.data.places.length === 0) {
+    if (this.data.newPlaces.length === 0) {
       return emptyBounds;
     }
 
-    return this.data.places
-      .reduce((bounds, place) => {
-        bounds.extend(place.latLng);
+    return this.data.newPlaces
+        .reduce((bounds, place) => {
+          bounds.extend(place.latLng);
 
-        return bounds;
-      }, emptyBounds)
-      .pad(0.1);
+          return bounds;
+        }, emptyBounds)
+        .pad(0.1);
   }
 
   @computed
@@ -249,8 +248,8 @@ class VisualisationStore {
     const domain = extent('visibleFrequency')(this.data.visiblePlaces);
 
     const scale = scalePow()
-      .exponent(0.5)
-      .domain(domain);
+        .exponent(0.5)
+        .domain(domain);
 
     if (this.scale != null) {
       if (this.width == null) {
@@ -270,8 +269,8 @@ class VisualisationStore {
     const domain = extent('visibleDuration')(this.data.visiblePlaces);
 
     const scale = scalePow()
-      .exponent(0.5)
-      .domain(domain);
+        .exponent(0.5)
+        .domain(domain);
 
     if (this.scale != null) {
       if (this.width == null) {
@@ -291,8 +290,8 @@ class VisualisationStore {
     const domain = this.connectionLineFrequencyDomain;
 
     const scale = scalePow()
-      .exponent(0.25)
-      .domain(domain);
+        .exponent(0.25)
+        .domain(domain);
 
     if (this.scale != null) {
       if (this.width == null) {
@@ -332,15 +331,15 @@ class VisualisationStore {
     const beelineExtent = extent('beeline');
 
     return scaleLinear()
-      .domain(beelineExtent(this.data.connections))
-      .range(beelineExtent(this.connectionLines));
+        .domain(beelineExtent(this.data.connections))
+        .range(beelineExtent(this.connectionLines));
   }
 
   @computed
   get connectionLineDurationDistanceScale() {
     return scaleLinear()
-      .domain(this.connectionLineDurationDomain)
-      .range(this.connectionLineDistanceDomain);
+        .domain(this.connectionLineDurationDomain)
+        .range(this.connectionLineDistanceDomain);
   }
 
   @computed
@@ -348,9 +347,9 @@ class VisualisationStore {
     const range = this.connectionLineDistanceDomain;
 
     return scalePow()
-      .exponent(0.5)
-      .domain(reverse(this.connectionLineFrequencyDomain))
-      .range([range[0], range[1] * 0.75]);
+        .exponent(0.5)
+        .domain(reverse(this.connectionLineFrequencyDomain))
+        .range([range[0], range[1] * 0.75]);
   }
 
   project(latLng: LatLng, zoom: number | undefined = this.zoom, pixelOrigin: Point | undefined = this.pixelOrigin) {

@@ -26,7 +26,7 @@ fun extractPlaces(from: String = "demo.json", to: String = "places.json") {
 // Generate new users out of the place info and a random time
 fun generateRandomUsers(vararg names: String) {
     val timeframeStart = Time.randomTime()
-    val timeframeEnd = timeframeStart + 1 * Time.WEEKS
+    val timeframeEnd = timeframeStart + 1 * Time.MONTHS
 
     val places = IO.read("places.json")
         .filter { it.place != null }

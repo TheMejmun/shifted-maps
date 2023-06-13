@@ -23,6 +23,7 @@ class Place {
   readonly id: number;
   readonly location: ILocation;
   readonly name: string;
+  ratio: number | undefined; // user stays / friend stays
 
   constructor(store: DataStore, data: IPlaceData) {
     this.store = store;
@@ -41,7 +42,11 @@ class Place {
 
   @computed
   get stays() {
-    return this.store.stays.filter(stay => stay.at === this);
+    const userStays = this.store.newStaysUser.filter(stay => stay.at === this);
+    const friendStays = this.store.newStaysFriend.filter(stay => stay.at === this);
+    this.ratio = userStays.length / friendStays.length
+
+    return userStays.concat(friendStays) // all stays at a place
   }
 
   @computed
