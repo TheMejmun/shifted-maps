@@ -29,7 +29,7 @@ class ConnectionLineLabel {
     }
 
     if (view === VIEW.TRAJECTORIES) {
-      return formatFrequency(this.connectionLine.visibleFrequencyRelative);
+      return formatFrequency(this.connectionLine.visibleRelativeFrequency);
     }
 
     return null;

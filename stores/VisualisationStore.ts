@@ -336,6 +336,11 @@ class VisualisationStore {
     }
 
     @computed
+    get connectionLineRelativeFrequencyDomain() {
+        return extent('visibleRelativeFrequency')(this.visibleConnectionLines);
+    }
+
+    @computed
     get connectionLineBeelineScale() {
         const beelineExtent = extent('beeline');
 
@@ -358,6 +363,16 @@ class VisualisationStore {
         return scalePow()
             .exponent(0.5)
             .domain(reverse(this.connectionLineFrequencyDomain))
+            .range([range[0], range[1] * 0.75]);
+    }
+
+    @computed
+    get connectionLineRelativeFrequencyDistanceScale() {
+        const range = this.connectionLineDistanceDomain;
+
+        return scalePow()
+            .exponent(0.5)
+            .domain(reverse(this.connectionLineRelativeFrequencyDomain))
             .range([range[0], range[1] * 0.75]);
     }
 
