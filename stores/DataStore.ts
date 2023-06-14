@@ -1,7 +1,7 @@
 import {computed} from 'mobx';
 
 import Connection from './Connection';
-import {DiaryData, DiaryPlaceData, DiaryUserData} from './Diary';
+import {DiaryPlaceData, DiaryUserData} from './Diary';
 import Place, {isPlaceData} from './Place';
 import Stay, {isStayData} from './Stay';
 import Trip, {isTripData} from './Trip';
@@ -11,15 +11,13 @@ export const DAY_IN_SEC = 60 * 60 * 24;
 
 class DataStore {
     readonly ui: Readonly<UIStore>;
-    readonly data: DiaryData;
     readonly placesData: DiaryPlaceData;
     readonly userData: DiaryUserData;
     readonly friendData: DiaryUserData; // TODO stupid name, change later
     readonly publicData: DiaryUserData[]; // TODO stupid name, change later
 
-    constructor(ui: UIStore, data: DiaryData, places: DiaryPlaceData, user: DiaryUserData, friend: DiaryUserData, publicData: DiaryUserData[]) {
+    constructor(ui: UIStore, places: DiaryPlaceData, user: DiaryUserData, friend: DiaryUserData, publicData: DiaryUserData[]) {
         this.ui = ui;
-        this.data = data;
         this.placesData = places;
         this.userData = user;
         this.friendData = friend;
@@ -68,19 +66,6 @@ class DataStore {
     @computed
     get stays() {
         return this.newStaysUser.concat(this.newStaysFriend);
-    }
-
-    @computed
-    get trips() {
-        const trips: Trip[] = [];
-
-        this.data.forEach(item => {
-            if (item.trip != null && isTripData(item.trip)) {
-                trips.push(new Trip(this, item.trip));
-            }
-        });
-
-        return trips;
     }
 
     @computed
