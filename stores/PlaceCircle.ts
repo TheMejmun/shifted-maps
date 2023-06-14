@@ -57,6 +57,7 @@ class PlaceCircle {
   @computed
   get radius() {
     return this.vis.placeCircleRadiusScale(this.place.visibleDuration);
+    // return 200;
   }
 
   @computed
@@ -173,6 +174,7 @@ class PlaceCircle {
   @computed
   get visible() {
     return this.parent == null && this.place.visible;
+    // return true
   }
 
   @computed

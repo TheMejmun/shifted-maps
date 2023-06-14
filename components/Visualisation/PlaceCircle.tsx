@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { observer } from 'mobx-react';
-import { MouseEvent } from 'react';
+import React, {MouseEvent} from 'react';
 import styled from 'styled-components';
 import useAutorunRef from '../../hooks/useAutorunRef';
 import PlaceCircleModel from '../../stores/PlaceCircle';
@@ -19,7 +19,6 @@ interface PlaceCircleProps {
 
 const PlaceCircle = observer(({ placeCircle, className, vis, touch, device }: PlaceCircleProps) => {
   const { radius, strokeWidth, active, visible, fade } = placeCircle;
-
   const ref = useAutorunRef(
     (element: SVGGElement) => {
       const { point } = placeCircle;
@@ -33,6 +32,13 @@ const PlaceCircle = observer(({ placeCircle, className, vis, touch, device }: Pl
     vis.toggle(placeCircle, active);
   };
 
+  const getRandomRatio = () => {
+    return Math.random().toFixed(2);
+  };
+
+  const ratio = getRandomRatio();
+
+  // @ts-ignore
   return (
     <g
       ref={ref}
@@ -50,16 +56,26 @@ const PlaceCircle = observer(({ placeCircle, className, vis, touch, device }: Pl
           })}
     >
       {visible && (
-        <>
-          <PlaceCircleBackground r={radius} />
-          <PlaceCircleMap placeCircle={placeCircle} vis={vis} />
-          <PlaceCircleStroke
-            r={radius}
-            style={{ strokeWidth: `${strokeWidth}px` }}
-            className={classNames({ highlight: active })}
-          />
-          <PlaceCircleLabel placeCircle={placeCircle} device={device} />
-        </>
+          <>
+            <PlaceCircleBackground r={radius} />
+            <PlaceCircleMap placeCircle={placeCircle} vis={vis} />
+            {/*<PlaceCircleStroke*/}
+            {/*    r={radius}*/}
+            {/*    style={{ strokeWidth: `${strokeWidth}px` }}*/}
+            {/*    className={classNames({ highlight: active })}*/}
+            {/*/>*/}
+            TODO make these circles below a styled component
+            <circle r={radius} stroke="#2B2A4C" strokeWidth="8" fill="none" />
+            <circle
+                r={radius}
+                stroke="#EA906C"
+                strokeWidth="8"
+                fill="none"
+                strokeDasharray={`calc(2 * 3.14159 * ${radius} * ${ratio}) calc(2 * 3.14159 * ${radius} * ${1 - ratio})`}
+                strokeDashoffset={`calc(2 * 3.14159 * ${radius} * ${1 - ratio})`}
+            />
+            <PlaceCircleLabel placeCircle={placeCircle} device={device} />
+          </>
       )}
     </g>
   );
@@ -86,12 +102,34 @@ const PlaceCircleBackground = styled.circle`
   stroke: none;
 `;
 
-const PlaceCircleStroke = styled.circle`
+// const PlaceCircleStroke = styled.circle`
+//   transition: stroke ${props => props.theme.shortTransitionDuration};
+//   fill: none;
+//   stroke: ${props => props.theme.foregroundColor};
+//
+//   &.highlight {
+//     stroke: ${props => props.theme.highlightColor};
+//   }
+// `;
+
+const UserCircle = styled.circle`
   transition: stroke ${props => props.theme.shortTransitionDuration};
   fill: none;
-  stroke: ${props => props.theme.foregroundColor};
-
+  stroke: blue;
+  stroke-width: 8;
   &.highlight {
     stroke: ${props => props.theme.highlightColor};
   }
 `;
+
+// const FriendCircle = styled.circle`
+//   transition: stroke ${props => props.theme.shortTransitionDuration};
+//   fill: none;
+//   stroke: red;
+//   stroke-width: 8;
+//   stroke-dasharray: ${props => `calc(2 * 3.14159 * ${props.radius} * 0.6) calc(2 * 3.14159 * ${props.radius} * 0.4)`};
+//   stroke-dashoffset: ${props => `calc(2 * 3.14159 * ${props.radius} * 0.4)`};
+//   &.highlight {
+//     stroke: ${props => props.theme.highlightColor};
+//   }
+// `;

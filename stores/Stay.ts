@@ -44,7 +44,7 @@ class Stay {
 
   @computed
   get at() {
-    return this.store.places.find(place => place.id === this.atPlaceId);
+    return this.store.newPlaces.find(place => place.id === this.atPlaceId);
   }
 }
 
