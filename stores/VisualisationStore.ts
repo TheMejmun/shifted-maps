@@ -190,7 +190,7 @@ class VisualisationStore {
             }
 
             if (connectionLine == null) {
-                connectionLine = new ConnectionLine(this, key, from, to);
+                connectionLine = new ConnectionLine(this, key, from, to, this.data.publicData.length);
                 newConnectionLine = true;
             }
 

@@ -6,8 +6,8 @@ import data from '../data/demo.json';
 import anton from '../data/anton.json';
 import jihae from '../data/jihae.json';
 import lucija from '../data/lucija.json';
-import phil from '../data/phil.json';
-import sam from '../data/sam.json';
+// import phil from '../data/phil.json';
+// import sam from '../data/sam.json';
 import saman from '../data/saman.json';
 import places from '../data/places.json';
 import {VIEW} from '../stores/UIStore';
@@ -100,7 +100,7 @@ const Map = () => {
             placesData={places}
             userData={saman}
             friendData={lucija}
-            publicData={[anton, jihae, lucija, phil, sam]}
+            publicData={[anton, jihae, lucija]} // , phil, sam
             view={view}
             timeSpan={timeSpan}
             mapView={mapView}

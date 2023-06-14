@@ -19,7 +19,8 @@ class ConnectionLine {
         readonly vis: VisualisationStore,
         readonly key: string,
         readonly from: PlaceCircle,
-        readonly to: PlaceCircle
+        readonly to: PlaceCircle,
+        readonly numOthers: number
     ) {
     }
 
@@ -40,7 +41,8 @@ class ConnectionLine {
         const frequenciesOthers = this.connectionsOthers.reduce(
             (frequency, connection) => frequency + connection.visibleFrequency,
             0
-        );
+        ) / this.numOthers;
+
 
         return frequencies / frequenciesOthers;
     }
