@@ -2,7 +2,7 @@ import dynamic from 'next/dynamic';
 import {useRouter} from 'next/router';
 import React, {useCallback} from 'react';
 import {MapView} from '../components/Visualisation/Visualisation';
-import data from '../data/demo.json';
+// import data from '../data/demo.json';
 import anton from '../data/anton.json';
 import jihae from '../data/jihae.json';
 import lucija from '../data/lucija.json';
@@ -96,7 +96,6 @@ const Map = () => {
     );
     return (
         <DynamicVisualisation
-            data={data}
             placesData={places}
             userData={saman}
             friendData={lucija}

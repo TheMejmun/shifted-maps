@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import useTouch from '../../hooks/useTouch';
 import useWidth from '../../hooks/useWidth';
 import DataStore from '../../stores/DataStore';
-import {DiaryData, DiaryUserData, DiaryPlaceData} from '../../stores/Diary';
+import {DiaryUserData, DiaryPlaceData} from '../../stores/Diary';
 import UIStore, {VIEW} from '../../stores/UIStore';
 import VisualisationStore from '../../stores/VisualisationStore';
 import FilterToolbar from './FilterToolbar/FilterToolbar';
@@ -25,7 +25,6 @@ export interface MapView {
 }
 
 interface VisualisationProps {
-    data: DiaryData;
     placesData: DiaryPlaceData;
     userData: DiaryUserData;
     friendData: DiaryUserData;
@@ -89,7 +88,6 @@ function useDebounceCallback<T extends (...args: any) => any>(callback: T, delay
 const Visualisation = observer((props: VisualisationProps) => {
     const {
         view,
-        data,
         placesData,
         userData,
         friendData,
@@ -105,7 +103,7 @@ const Visualisation = observer((props: VisualisationProps) => {
     // TODO Use useRef with dependency array for semantic guarantee.
     // See https://reactjs.org/docs/hooks-reference.html#usememo
     const uiStore = useMemo(() => new UIStore(), []);
-    const dataStore = useMemo(() => new DataStore(uiStore, data, placesData, userData, friendData, publicData), [uiStore, data]);
+    const dataStore = useMemo(() => new DataStore(uiStore, placesData, userData, friendData, publicData), [uiStore]);
     const visStore = useMemo(() => new VisualisationStore(uiStore, dataStore), [uiStore, dataStore]);
 
     useLayoutEffect(() => {
