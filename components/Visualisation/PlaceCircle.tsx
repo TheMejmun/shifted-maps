@@ -9,6 +9,8 @@ import PlaceCircleLabel from './PlaceCircleLabel';
 import PlaceCircleMap from './PlaceCircleMap';
 import { DEVICE } from './Visualisation';
 
+import ToggleContext from './FilterToolbar/ToggleContext';
+
 interface PlaceCircleProps {
   placeCircle: PlaceCircleModel;
   vis: VisualisationStore;
@@ -19,6 +21,7 @@ interface PlaceCircleProps {
 
 const PlaceCircle = observer(({ placeCircle, className, vis, touch, device }: PlaceCircleProps) => {
   const { radius, visible, fade } = placeCircle;
+  const { isToggled } = React.useContext(ToggleContext);
   const ratio = placeCircle.place.ratio
   const ref = useAutorunRef(
     (element: SVGGElement) => {
@@ -52,18 +55,29 @@ const PlaceCircle = observer(({ placeCircle, className, vis, touch, device }: Pl
     >
       {visible && (
           <>
-            <PlaceCircleBackground r={radius} />
-            <PlaceCircleMap placeCircle={placeCircle} vis={vis} />
-            <circle r={radius} stroke="#2B2A4C" strokeWidth="8" fill="none" />
-            <circle
-                r={radius}
-                stroke="#EA906C"
-                strokeWidth="8"
-                fill="none"
-                strokeDasharray={`calc(2 * 3.14159 * ${radius} * ${ratio}) calc(2 * 3.14159 * ${radius} * ${1 - ratio})`}
-                strokeDashoffset={`calc(2 * 3.14159 * ${radius} * ${1 - ratio})`}
-            />
-            <PlaceCircleLabel placeCircle={placeCircle} device={device} />
+          {!isToggled ? (
+              <>
+                <PlaceCircleBackground r={radius} />
+                <PlaceCircleMap placeCircle={placeCircle} vis={vis} />
+                <circle r={radius} stroke="#333333" strokeWidth="8" fill="none" />
+                <PlaceCircleLabel placeCircle={placeCircle} device={device} />
+              </>
+            ) : (
+              <>
+                <PlaceCircleBackground r={radius} />
+                <PlaceCircleMap placeCircle={placeCircle} vis={vis} />
+                <circle r={radius} stroke="#2963a5" strokeWidth="8" fill="none" />
+                <circle
+                    r={radius}
+                    stroke="#EA906C"
+                    strokeWidth="8"
+                    fill="none"
+                    strokeDasharray={`calc(2 * 3.14159 * ${radius} * ${ratio}) calc(2 * 3.14159 * ${radius} * ${1 - ratio})`}
+                    strokeDashoffset={`calc(2 * 3.14159 * ${radius} * ${1 - ratio})`}
+                />
+                <PlaceCircleLabel placeCircle={placeCircle} device={device} />
+              </>
+          )}
           </>
       )}
     </g>

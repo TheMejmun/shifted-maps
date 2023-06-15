@@ -2,7 +2,7 @@ import dynamic from 'next/dynamic';
 import {useRouter} from 'next/router';
 import React, {useCallback} from 'react';
 import {MapView} from '../components/Visualisation/Visualisation';
-// import data from '../data/demo.json';
+import { ToggleProvider } from '../components/Visualisation/FilterToolbar/ToggleContext';
 import anton from '../data/anton.json';
 import jihae from '../data/jihae.json';
 import lucija from '../data/lucija.json';
@@ -95,18 +95,20 @@ const Map = () => {
         [router]
     );
     return (
-        <DynamicVisualisation
-            placesData={places}
-            userData={saman}
-            friendData={lucija}
-            publicData={[anton, jihae, lucija, phil, sam]}
-            view={view}
-            timeSpan={timeSpan}
-            mapView={mapView}
-            onViewChange={handleViewChange}
-            onTimeSpanChange={handleTimeSpanChange}
-            onMapViewChange={handleMapViewChange}
-        />
+        <ToggleProvider>
+            <DynamicVisualisation
+                placesData={places}
+                userData={saman}
+                friendData={lucija}
+                publicData={[anton, jihae, lucija, phil, sam]}
+                view={view}
+                timeSpan={timeSpan}
+                mapView={mapView}
+                onViewChange={handleViewChange}
+                onTimeSpanChange={handleTimeSpanChange}
+                onMapViewChange={handleMapViewChange}
+            />
+        </ToggleProvider>
     );
 };
 

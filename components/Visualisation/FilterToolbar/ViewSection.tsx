@@ -4,6 +4,9 @@ import styled from 'styled-components';
 import { VIEW } from '../../../stores/UIStore';
 import { ViewItem, VIEW_LIST } from './config';
 import ViewButton from './ViewButton';
+import React  from 'react';
+
+import ToggleContext from './ToggleContext';
 
 interface ViewSectionProps {
   className?: string;
@@ -18,6 +21,7 @@ const ViewSection = observer((props: ViewSectionProps) => {
         display: 'flex',
         alignItems: 'center',
         marginBottom: '10px',
+        marginTop: '10px'
     };
 
     const colorCircleStyle = {
@@ -42,19 +46,36 @@ const ViewSection = observer((props: ViewSectionProps) => {
       </ViewInfo>
         <ViewInfo>
             <ViewName>
-                Legend</ViewName>
+                Comparison
+            </ViewName>
+            <ToggleButton />
             <ViewText>
-                <div style={legendItemStyle}>
-                    <span style={colorCircleStyle}></span> Friend
-                </div>
-                <div style={legendItemStyle}>
-                    <span style={{ ...colorCircleStyle, backgroundColor: '#EA906C' }}></span> User
-                </div>
+                If toggled compares your movement data with your friend.
             </ViewText>
+            <div style={legendItemStyle}>
+                <span style={colorCircleStyle}></span> Friend
+            </div>
+            <div style={legendItemStyle}>
+                <span style={{ ...colorCircleStyle, backgroundColor: '#EA906C' }}></span> User
+            </div>
         </ViewInfo>
     </section>
   );
 });
+
+const ToggleButton = () => {
+    const { isToggled, setToggled } = React.useContext(ToggleContext);
+
+    const handleToggle = () => {
+        setToggled(!isToggled);
+    };
+
+    return (
+        <ToggleContainer onClick={handleToggle} isToggled={isToggled}>
+            <ToggleSlider isToggled={isToggled} />
+        </ToggleContainer>
+    );
+};
 
 export default styled(ViewSection)`
   grid-area: view;
@@ -93,4 +114,24 @@ const ViewName = styled.strong`
 
 const ViewText = styled.p`
   color: ${props => transparentize(0.4, props.theme.foregroundColor)};
+`;
+
+const ToggleContainer = styled.label<{ isToggled: boolean }>`
+  display: inline-block;
+  width: 30px;
+  height: 15px;
+  background-color: ${props => (props.isToggled ? props.theme.highlightColor : props.theme.foregroundColor)};
+  border-radius: 34px;
+  cursor: pointer;
+`;
+
+const ToggleSlider = styled.span<{ isToggled: boolean }>`
+  position: relative;
+  display: block;
+  width: 15px;
+  height: 15px;
+  background-color: #fff;
+  border-radius: 50%;
+  transition: 0.4s;
+  transform: translateX(${props => (props.isToggled ? '15px' : '0')});
 `;
