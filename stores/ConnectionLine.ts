@@ -43,8 +43,7 @@ class ConnectionLine {
             0
         ) / this.numOthers;
 
-
-        return frequencies / frequenciesOthers;
+        return Math.min((frequencies / 2) / frequenciesOthers, 10);
     }
 
     @computed
@@ -89,7 +88,6 @@ class ConnectionLine {
         }
 
         if (view === VIEW.TRAJECTORIES) {
-            // const scaledDistance = this.vis.connectionLineFrequencyDistanceScale(this.visibleRelativeFrequency);
             const scaledDistance = this.vis.connectionLineRelativeFrequencyDistanceScale(this.visibleRelativeFrequency);
 
             return this.vis.connectionLineBeelineScale(scaledDistance);

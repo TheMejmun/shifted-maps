@@ -204,17 +204,24 @@ class VisualisationStore {
         });
     }
 
+     static clearArray<T>(array: T[]) {
+        while (array.length > 0) {
+            array.pop();
+        }
+    }
+
     @computed
     get connectionLines() {
         // Clear all connections to start with empty connection lines if reused.
-        this.connectionLinesCache.forEach(connectionLine => {
-            connectionLine.connections.length = 0;
-        });
+        VisualisationStore.clearArray(this.connectionLinesCache);
+        // this.connectionLinesCache.forEach(connectionLine => {
+        //     VisualisationStore.clearArray(connectionLine.connections);
+        //     VisualisationStore.clearArray(connectionLine.connectionsOthers);
+        // });
 
         // Main user has to be added first!
         // TODO not with friend?
         this.pushConnections(this.data.connectionsWithFriend, false);
-        // TODO This breaks the rest of the code
         this.pushConnections(this.data.connectionsOtherUsers, true);
 
         return this.connectionLinesCache
@@ -372,9 +379,9 @@ class VisualisationStore {
         const range = this.connectionLineDistanceDomain;
 
         return scalePow()
-            .exponent(0.01)
+            .exponent(0.1)
             .domain(reverse(this.connectionLineRelativeFrequencyDomain))
-            .range([range[0], range[1] / 2]);
+            .range([range[0] / 2, range[1] / 2]);
     }
 
     project(latLng: LatLng, zoom: number | undefined = this.zoom, pixelOrigin: Point | undefined = this.pixelOrigin) {
