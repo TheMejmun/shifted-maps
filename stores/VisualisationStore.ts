@@ -157,8 +157,16 @@ class VisualisationStore {
         return (this.placeCirclesCache = placeCircles);
     }
 
-    private pushConnectionsToLine(from: Connection[], lines: ConnectionLine[], isOther: boolean) {
-        from.forEach(connection => {
+    private pushConnections(data: Connection[], isOther: boolean) {
+        const connectionLines: ConnectionLine[] = [];
+
+        // Clear all connections to start with empty connection lines if reused.
+        this.connectionLinesCache.forEach(connectionLine => {
+            connectionLine.connections.length = 0;
+        });
+
+        // TODO not with friend?
+        data.forEach(connection => {
             let from = this.placeCircles.find(placeCircle => placeCircle.place.id === connection.from.id);
             let to = this.placeCircles.find(placeCircle => placeCircle.place.id === connection.to.id);
             const user = connection.user;
@@ -181,7 +189,7 @@ class VisualisationStore {
             }
 
             const key = Connection.createId(from.place, to.place, user);
-            let connectionLine = lines.find(connectionLine => connectionLine.key === key);
+            let connectionLine = connectionLines.find(connectionLine => connectionLine.key === key);
             let newConnectionLine = false;
 
             if (connectionLine == null) {
@@ -195,30 +203,28 @@ class VisualisationStore {
             }
 
             if (newConnectionLine) {
-                lines.push(connectionLine);
+                connectionLines.push(connectionLine);
             }
+
             if (isOther) {
                 connectionLine.connectionsOthers.push(connection);
             } else {
                 connectionLine.connections.push(connection);
             }
         });
+
+        this.connectionLinesCache = connectionLines
     }
 
     @computed
     get connectionLines() {
-        const connectionLines: ConnectionLine[] = [];
+        this.pushConnections(this.data.connectionsWithFriend, false);
+        // TODO This breaks the rest of the code
+        // this.pushConnections(this.data.connectionsOtherUsers, true);
 
-        // Clear all connections to start with empty connection lines if reused.
-        this.connectionLinesCache.forEach(connectionLine => {
-            connectionLine.connections.length = 0;
-        });
-
-        this.pushConnectionsToLine(this.data.connectionsMainUser, connectionLines, false);
-        this.pushConnectionsToLine(this.data.connectionsOtherUsers, connectionLines, true);
-
-        return (this.connectionLinesCache = connectionLines);
+        return this.connectionLinesCache
     }
+
 
     @computed
     get initialBounds() {
@@ -345,7 +351,7 @@ class VisualisationStore {
         const beelineExtent = extent('beeline');
 
         return scaleLinear()
-            .domain(beelineExtent(this.data.connectionsMainUser))
+            .domain(beelineExtent(this.data.connectionsWithFriend))
             .range(beelineExtent(this.connectionLines));
     }
 
@@ -371,9 +377,9 @@ class VisualisationStore {
         const range = this.connectionLineDistanceDomain;
 
         return scalePow()
-            .exponent(0.5)
+            .exponent(0.01)
             .domain(reverse(this.connectionLineRelativeFrequencyDomain))
-            .range([range[0], range[1] * 0.75]);
+            .range([range[0], range[1] / 2]);
     }
 
     project(latLng: LatLng, zoom: number | undefined = this.zoom, pixelOrigin: Point | undefined = this.pixelOrigin) {
