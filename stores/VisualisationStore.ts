@@ -371,9 +371,9 @@ class VisualisationStore {
         const range = this.connectionLineDistanceDomain;
 
         return scalePow()
-            .exponent(0.5)
+            .exponent(0.01)
             .domain(reverse(this.connectionLineRelativeFrequencyDomain))
-            .range([range[0], range[1] * 0.75]);
+            .range([range[0], range[1] / 2]);
     }
 
     project(latLng: LatLng, zoom: number | undefined = this.zoom, pixelOrigin: Point | undefined = this.pixelOrigin) {
