@@ -19,7 +19,6 @@ const val MAX_ACTIVITY_DURATION = 24 * Time.HOURS
 const val DIARY_DURATION = 2 * Time.MONTHS
 const val TRY_USING_ALL_PLACES = true
 
-// Extract all places from dataset
 fun extractPlaces(from: String = "demo.json", to: String = "places.json") {
     val input = IO.read(from)
     val places = input
@@ -31,7 +30,6 @@ fun extractPlaces(from: String = "demo.json", to: String = "places.json") {
     println("Wrote places extracted from $from to $to")
 }
 
-// Generate new users out of the place info and a random time
 fun generateRandomUsers(vararg names: String) {
     val timeframeStart = Time.randomTime()
     val timeframeEnd = timeframeStart + DIARY_DURATION
