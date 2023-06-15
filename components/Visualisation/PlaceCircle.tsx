@@ -18,7 +18,8 @@ interface PlaceCircleProps {
 }
 
 const PlaceCircle = observer(({ placeCircle, className, vis, touch, device }: PlaceCircleProps) => {
-  const { radius, strokeWidth, active, visible, fade } = placeCircle;
+  const { radius, visible, fade } = placeCircle;
+  const ratio = placeCircle.place.ratio
   const ref = useAutorunRef(
     (element: SVGGElement) => {
       const { point } = placeCircle;
@@ -31,12 +32,6 @@ const PlaceCircle = observer(({ placeCircle, className, vis, touch, device }: Pl
   const toggle = (active?: boolean) => {
     vis.toggle(placeCircle, active);
   };
-
-  const getRandomRatio = () => {
-    return Math.random().toFixed(2);
-  };
-
-  const ratio = getRandomRatio();
 
   // @ts-ignore
   return (
@@ -59,12 +54,6 @@ const PlaceCircle = observer(({ placeCircle, className, vis, touch, device }: Pl
           <>
             <PlaceCircleBackground r={radius} />
             <PlaceCircleMap placeCircle={placeCircle} vis={vis} />
-            {/*<PlaceCircleStroke*/}
-            {/*    r={radius}*/}
-            {/*    style={{ strokeWidth: `${strokeWidth}px` }}*/}
-            {/*    className={classNames({ highlight: active })}*/}
-            {/*/>*/}
-            TODO make these circles below a styled component
             <circle r={radius} stroke="#2B2A4C" strokeWidth="8" fill="none" />
             <circle
                 r={radius}
@@ -102,34 +91,3 @@ const PlaceCircleBackground = styled.circle`
   stroke: none;
 `;
 
-// const PlaceCircleStroke = styled.circle`
-//   transition: stroke ${props => props.theme.shortTransitionDuration};
-//   fill: none;
-//   stroke: ${props => props.theme.foregroundColor};
-//
-//   &.highlight {
-//     stroke: ${props => props.theme.highlightColor};
-//   }
-// `;
-
-const UserCircle = styled.circle`
-  transition: stroke ${props => props.theme.shortTransitionDuration};
-  fill: none;
-  stroke: blue;
-  stroke-width: 8;
-  &.highlight {
-    stroke: ${props => props.theme.highlightColor};
-  }
-`;
-
-// const FriendCircle = styled.circle`
-//   transition: stroke ${props => props.theme.shortTransitionDuration};
-//   fill: none;
-//   stroke: red;
-//   stroke-width: 8;
-//   stroke-dasharray: ${props => `calc(2 * 3.14159 * ${props.radius} * 0.6) calc(2 * 3.14159 * ${props.radius} * 0.4)`};
-//   stroke-dashoffset: ${props => `calc(2 * 3.14159 * ${props.radius} * 0.4)`};
-//   &.highlight {
-//     stroke: ${props => props.theme.highlightColor};
-//   }
-// `;

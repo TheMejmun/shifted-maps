@@ -44,9 +44,12 @@ class Place {
   get stays() {
     const userStays = this.store.newStaysUser.filter(stay => stay.at === this);
     const friendStays = this.store.newStaysFriend.filter(stay => stay.at === this);
-    this.ratio = userStays.length / friendStays.length
+    const totalStays = userStays.concat(friendStays)
 
-    return userStays.concat(friendStays) // all stays at a place
+    this.ratio = userStays.length / totalStays.length
+    if (isNaN(this.ratio))
+      this.ratio = 0
+    return  totalStays
   }
 
   @computed

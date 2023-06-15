@@ -14,6 +14,20 @@ interface ViewSectionProps {
 const ViewSection = observer((props: ViewSectionProps) => {
   const { className, activeViewItem, onViewChange } = props;
 
+    const legendItemStyle = {
+        display: 'flex',
+        alignItems: 'center',
+        marginBottom: '10px',
+    };
+
+    const colorCircleStyle = {
+        backgroundColor: '#2B2A4C',
+        color: 'white',
+        padding: '8px',
+        borderRadius: '50%',
+        marginRight: '10px',
+    };
+
   return (
     <section className={className}>
       <ViewList>
@@ -22,9 +36,22 @@ const ViewSection = observer((props: ViewSectionProps) => {
         ))}
       </ViewList>
       <ViewInfo>
-        <ViewName>{activeViewItem.name}</ViewName>
+        <ViewName>
+            {activeViewItem.name}</ViewName>
         <ViewText>{activeViewItem.text}</ViewText>
       </ViewInfo>
+        <ViewInfo>
+            <ViewName>
+                Legend</ViewName>
+            <ViewText>
+                <div style={legendItemStyle}>
+                    <span style={colorCircleStyle}></span> Friend
+                </div>
+                <div style={legendItemStyle}>
+                    <span style={{ ...colorCircleStyle, backgroundColor: '#EA906C' }}></span> User
+                </div>
+            </ViewText>
+        </ViewInfo>
     </section>
   );
 });
