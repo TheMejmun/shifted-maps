@@ -33,7 +33,7 @@ class ConnectionLine {
     }
 
     @computed
-    get visibleFrequencyRelative() {
+    get visibleRelativeFrequency() {
         const frequencies = this.connections.reduce(
             (frequency, connection) => frequency + connection.visibleFrequency,
             0
@@ -89,7 +89,8 @@ class ConnectionLine {
         }
 
         if (view === VIEW.TRAJECTORIES) {
-            const scaledDistance = this.vis.connectionLineFrequencyDistanceScale(this.visibleFrequencyRelative);
+            // const scaledDistance = this.vis.connectionLineFrequencyDistanceScale(this.visibleRelativeFrequency);
+            const scaledDistance = this.vis.connectionLineRelativeFrequencyDistanceScale(this.visibleRelativeFrequency);
 
             return this.vis.connectionLineBeelineScale(scaledDistance);
         }

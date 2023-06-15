@@ -22,7 +22,7 @@ class Connection {
     readonly from: Place;
     readonly to: Place;
     readonly trips: Trip[] = [];
-    readonly user: boolean
+    readonly user: boolean // TODO there are more than 2 users
 
     constructor(store: DataStore, id: string, from: Place, to: Place, user: boolean) {
         this.store = store;

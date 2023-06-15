@@ -12,15 +12,21 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.random.Random
 
-const val MAX_ACTIVITY_DURATION = 12 * Time.HOURS
+const val PLACES_LIMIT = 50
+
+const val MIN_ACTIVITY_DURATION = 10 * Time.MINUTES
+const val MAX_ACTIVITY_DURATION = 24 * Time.HOURS
+const val DIARY_DURATION = 2 * Time.MONTHS
+const val TRY_USING_ALL_PLACES = true
 
 // Extract all places from dataset
 fun extractPlaces(from: String = "demo.json", to: String = "places.json") {
     val input = IO.read(from)
     val places = input
         .filter { it.place != null }
+    val placesSliced = places.shuffled().subList(0, min(PLACES_LIMIT, places.size))
 
-    IO.write(places, to)
+    IO.write(placesSliced, to)
 
     println("Wrote places extracted from $from to $to")
 }
@@ -28,7 +34,7 @@ fun extractPlaces(from: String = "demo.json", to: String = "places.json") {
 // Generate new users out of the place info and a random time
 fun generateRandomUsers(vararg names: String) {
     val timeframeStart = Time.randomTime()
-    val timeframeEnd = timeframeStart + 3 * Time.MONTHS
+    val timeframeEnd = timeframeStart + DIARY_DURATION
 
     val places = IO.read("places.json")
         .filter { it.place != null }
@@ -46,7 +52,7 @@ fun generateRandomUsers(vararg names: String) {
         do {
             // Max one day per action, min 10 minutes
             var duration = Random.nextLong(
-                from = 10 * Time.MINUTES,
+                from = MIN_ACTIVITY_DURATION,
                 until = MAX_ACTIVITY_DURATION
             )
             duration = min(duration, timeframeEnd - currentTime)
@@ -61,13 +67,11 @@ fun generateRandomUsers(vararg names: String) {
                 usedPlaces.none { it.id == place.id }
             }
 
-//            println(unusedPlaces.size)
-
             // Because a Trip + Stay can at most last 2 Days
             // if unused * 2d >= the remaining time, pick an unused place
             val pickUnusedPlaceNext =
                 (unusedPlaces.size * 2 * MAX_ACTIVITY_DURATION + MAX_ACTIVITY_DURATION) >= (timeframeEnd - currentTime)
-                        && unusedPlaces.isNotEmpty()
+                        && unusedPlaces.isNotEmpty() && TRY_USING_ALL_PLACES
 
             val willEnd = currentTime + duration >= timeframeEnd
 
