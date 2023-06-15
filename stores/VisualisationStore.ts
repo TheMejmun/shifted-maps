@@ -158,14 +158,7 @@ class VisualisationStore {
     }
 
     private pushConnections(data: Connection[], isOther: boolean) {
-        const connectionLines: ConnectionLine[] = [];
 
-        // Clear all connections to start with empty connection lines if reused.
-        this.connectionLinesCache.forEach(connectionLine => {
-            connectionLine.connections.length = 0;
-        });
-
-        // TODO not with friend?
         data.forEach(connection => {
             let from = this.placeCircles.find(placeCircle => placeCircle.place.id === connection.from.id);
             let to = this.placeCircles.find(placeCircle => placeCircle.place.id === connection.to.id);
@@ -189,38 +182,40 @@ class VisualisationStore {
             }
 
             const key = Connection.createId(from.place, to.place, user);
-            let connectionLine = connectionLines.find(connectionLine => connectionLine.key === key);
-            let newConnectionLine = false;
+            let connectionLineIndex = this.connectionLinesCache
+                .map(connectionLine => connectionLine.key)
+                .indexOf(key);
 
-            if (connectionLine == null) {
-                connectionLine = this.connectionLinesCache.find(connectionLine => connectionLine.key === key);
-                newConnectionLine = true;
-            }
+            // Do not create a new connection, if the main user does not use it!!
+            if (connectionLineIndex >= 0 || !isOther) {
+                if (connectionLineIndex < 0) {
+                    this.connectionLinesCache.push(new ConnectionLine(this, key, from, to, this.data.publicData.length));
+                    connectionLineIndex = this.connectionLinesCache.length - 1
+                }
 
-            if (connectionLine == null) {
-                connectionLine = new ConnectionLine(this, key, from, to, this.data.publicData.length);
-                newConnectionLine = true;
-            }
+                const connectionLine = this.connectionLinesCache[connectionLineIndex];
 
-            if (newConnectionLine) {
-                connectionLines.push(connectionLine);
-            }
-
-            if (isOther) {
-                connectionLine.connectionsOthers.push(connection);
-            } else {
-                connectionLine.connections.push(connection);
+                if (isOther) {
+                    connectionLine.connectionsOthers.push(connection);
+                } else {
+                    connectionLine.connections.push(connection);
+                }
             }
         });
-
-        this.connectionLinesCache = connectionLines
     }
 
     @computed
     get connectionLines() {
+        // Clear all connections to start with empty connection lines if reused.
+        this.connectionLinesCache.forEach(connectionLine => {
+            connectionLine.connections.length = 0;
+        });
+
+        // Main user has to be added first!
+        // TODO not with friend?
         this.pushConnections(this.data.connectionsWithFriend, false);
         // TODO This breaks the rest of the code
-        // this.pushConnections(this.data.connectionsOtherUsers, true);
+        this.pushConnections(this.data.connectionsOtherUsers, true);
 
         return this.connectionLinesCache
     }
