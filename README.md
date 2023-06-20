@@ -23,7 +23,7 @@ If you have any kind of conceptual or technical feedback or found an issues in t
 
 ## Fix ERR_OSSL_EVP_UNSUPPORTED
 
-Execute `export NODE_OPTIONS=--openssl-legacy-provider`
+Execute `export NODE_OPTIONS=--openssl-legacy-provider` on MacOS or `set NODE_OPTIONS=--openssl-legacy-provider && npm run start` on Windows
 
 ## Fix hash something error
 
