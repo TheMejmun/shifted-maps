@@ -22,7 +22,7 @@ interface PlaceCircleProps {
 const PlaceCircle = observer(({ placeCircle, className, vis, touch, device }: PlaceCircleProps) => {
   const { radius, visible, fade } = placeCircle;
   const { isToggled } = React.useContext(ToggleContext);
-  const ratio = placeCircle.place.ratio
+  const ratio = placeCircle.place.ratio === undefined ? 0 : placeCircle.place.ratio;
   const ref = useAutorunRef(
     (element: SVGGElement) => {
       const { point } = placeCircle;
