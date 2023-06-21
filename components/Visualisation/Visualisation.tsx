@@ -3,7 +3,7 @@ import debounce from 'lodash/fp/debounce';
 import isEqual from 'lodash/fp/isEqual';
 import {configure} from 'mobx';
 import {observer} from 'mobx-react';
-import React, {useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState} from 'react';
 import styled from 'styled-components';
 import useTouch from '../../hooks/useTouch';
 import useWidth from '../../hooks/useWidth';
@@ -14,6 +14,7 @@ import VisualisationStore from '../../stores/VisualisationStore';
 import FilterToolbar from './FilterToolbar/FilterToolbar';
 import Map from './Map';
 import SVGVisualisationLayer from './SVGVisualisationLayer';
+import ToggleContext from "./FilterToolbar/ToggleContext";
 
 configure({
     enforceActions: 'observed',
@@ -105,6 +106,7 @@ const Visualisation = observer((props: VisualisationProps) => {
     const uiStore = useMemo(() => new UIStore(), []);
     const dataStore = useMemo(() => new DataStore(uiStore, placesData, userData, friendData, publicData), [uiStore]);
     const visStore = useMemo(() => new VisualisationStore(uiStore, dataStore), [uiStore, dataStore]);
+    dataStore.vis = visStore;
 
     useLayoutEffect(() => {
         uiStore.update({view, timeSpan});
@@ -115,6 +117,14 @@ const Visualisation = observer((props: VisualisationProps) => {
             visStore.dispose();
         },
         [visStore]
+    );
+
+    const { isToggled } = useContext(ToggleContext);
+    useEffect(
+        () => () => {
+            uiStore.updateWithFriend(!isToggled);
+        },
+        [isToggled]
     );
 
     const mapRef = useRef<LeafletMap>();

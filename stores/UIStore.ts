@@ -1,24 +1,35 @@
-import { action, observable } from 'mobx';
+import {action, observable} from 'mobx';
+import ToggleContext from "../components/Visualisation/FilterToolbar/ToggleContext";
 
 export enum VIEW {
-  GEOGRAPHIC,
-  DURATION,
-  FREQUENCY,
-  TRAJECTORIES
+    GEOGRAPHIC,
+    DURATION,
+    FREQUENCY,
+    TRAJECTORIES
 }
 
 class UIStore {
-  @observable
-  timeSpan?: ReadonlyArray<number>;
+    static toggleContext = ToggleContext;
 
-  @observable
-  view?: VIEW;
+    @observable
+    timeSpan?: ReadonlyArray<number>;
 
-  @action
-  update({ view, timeSpan }: { timeSpan?: ReadonlyArray<number>; view?: VIEW }) {
-    this.view = view;
-    this.timeSpan = timeSpan;
-  }
+    @observable
+    view?: VIEW;
+
+    @observable
+    withFriend: boolean = false;
+
+    @action
+    update({view, timeSpan}: { timeSpan?: ReadonlyArray<number>; view?: VIEW }) {
+        this.view = view;
+        this.timeSpan = timeSpan;
+    }
+
+    @action
+    updateWithFriend(withFriend: boolean) {
+        this.withFriend = withFriend;
+    }
 }
 
 export default UIStore;

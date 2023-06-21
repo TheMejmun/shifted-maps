@@ -5,7 +5,8 @@ import {DiaryPlaceData, DiaryUserData} from './Diary';
 import Place, {isPlaceData} from './Place';
 import Stay, {isStayData} from './Stay';
 import Trip, {isTripData} from './Trip';
-import UIStore from './UIStore';
+import VisualisationStore from "./VisualisationStore";
+import UIStore from "./UIStore";
 
 export const DAY_IN_SEC = 60 * 60 * 24;
 
@@ -15,6 +16,8 @@ class DataStore {
     readonly userData: DiaryUserData;
     readonly friendData: DiaryUserData; // TODO stupid name, change later
     readonly publicData: DiaryUserData[]; // TODO stupid name, change later
+    vis: VisualisationStore | undefined = undefined;
+
 
     constructor(ui: UIStore, places: DiaryPlaceData, user: DiaryUserData, friend: DiaryUserData, publicData: DiaryUserData[]) {
         this.ui = ui;
@@ -54,6 +57,12 @@ class DataStore {
     get newStaysFriend() {
         const staysFriend: Stay[] = [];
 
+        // @ts-ignore
+        const {withFriend} = this.vis.ui;
+        if (!withFriend) {
+            return staysFriend;
+        }
+
         this.friendData.forEach(item => {
             if (item.stay != null && isStayData(item.stay)) {
                 staysFriend.push(new Stay(this, item.stay));
@@ -84,6 +93,12 @@ class DataStore {
     @computed
     get newTripsFriend() {
         const tripsFriend: Trip[] = [];
+
+        // @ts-ignore
+        const {withFriend} = this.vis.ui;
+        if (!withFriend) {
+            return tripsFriend;
+        }
 
         this.friendData.forEach(item => {
             if (item.trip != null && isTripData(item.trip)) {
@@ -141,7 +156,11 @@ class DataStore {
 
         this.pushTrips(connections, this.newTripsUser);
 
-        this.pushTrips(connections, this.newTripsFriend);
+        // @ts-ignore
+        const {withFriend} = this.vis.ui;
+        if (withFriend) {
+            this.pushTrips(connections, this.newTripsFriend);
+        }
 
         return Object.values(connections);
     }
