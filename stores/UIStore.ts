@@ -1,4 +1,5 @@
 import {action, observable} from 'mobx';
+import ToggleContext from "../components/Visualisation/FilterToolbar/ToggleContext";
 
 export enum VIEW {
     GEOGRAPHIC,
@@ -8,6 +9,8 @@ export enum VIEW {
 }
 
 class UIStore {
+    static toggleContext = ToggleContext;
+
     @observable
     timeSpan?: ReadonlyArray<number>;
 
@@ -15,13 +18,17 @@ class UIStore {
     view?: VIEW;
 
     @observable
-    withFriend: boolean = true;
+    withFriend: boolean = false;
 
     @action
-    update({view, timeSpan, withFriend}: { timeSpan?: ReadonlyArray<number>; view?: VIEW; withFriend?: boolean }) {
+    update({view, timeSpan}: { timeSpan?: ReadonlyArray<number>; view?: VIEW }) {
         this.view = view;
         this.timeSpan = timeSpan;
-        if (withFriend !== undefined) this.withFriend = withFriend;
+    }
+
+    @action
+    updateWithFriend(withFriend: boolean) {
+        this.withFriend = withFriend;
     }
 }
 
