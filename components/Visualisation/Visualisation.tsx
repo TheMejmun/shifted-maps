@@ -105,6 +105,7 @@ const Visualisation = observer((props: VisualisationProps) => {
     const uiStore = useMemo(() => new UIStore(), []);
     const dataStore = useMemo(() => new DataStore(uiStore, placesData, userData, friendData, publicData), [uiStore]);
     const visStore = useMemo(() => new VisualisationStore(uiStore, dataStore), [uiStore, dataStore]);
+    dataStore.vis = visStore;
 
     useLayoutEffect(() => {
         uiStore.update({view, timeSpan});

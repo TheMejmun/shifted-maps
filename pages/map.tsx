@@ -77,6 +77,20 @@ const Map = () => {
         [router]
     );
 
+
+    // const handleWithFriendChange = useCallback(
+    //     (withFriend: boolean) => {
+    //         router.push({
+    //             pathname: '/map',
+    //             query: {
+    //                 ...router.query,
+    //                 withFriend: withFriend,
+    //             },
+    //         });
+    //     },
+    //     [router]
+    // );
+
     const handleMapViewChange = useCallback(
         ({center, zoom}: MapView) => {
             const query = {

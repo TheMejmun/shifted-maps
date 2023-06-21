@@ -1,24 +1,28 @@
-import { action, observable } from 'mobx';
+import {action, observable} from 'mobx';
 
 export enum VIEW {
-  GEOGRAPHIC,
-  DURATION,
-  FREQUENCY,
-  TRAJECTORIES
+    GEOGRAPHIC,
+    DURATION,
+    FREQUENCY,
+    TRAJECTORIES
 }
 
 class UIStore {
-  @observable
-  timeSpan?: ReadonlyArray<number>;
+    @observable
+    timeSpan?: ReadonlyArray<number>;
 
-  @observable
-  view?: VIEW;
+    @observable
+    view?: VIEW;
 
-  @action
-  update({ view, timeSpan }: { timeSpan?: ReadonlyArray<number>; view?: VIEW }) {
-    this.view = view;
-    this.timeSpan = timeSpan;
-  }
+    @observable
+    withFriend: boolean = true;
+
+    @action
+    update({view, timeSpan, withFriend}: { timeSpan?: ReadonlyArray<number>; view?: VIEW; withFriend?: boolean }) {
+        this.view = view;
+        this.timeSpan = timeSpan;
+        if (withFriend !== undefined) this.withFriend = withFriend;
+    }
 }
 
 export default UIStore;
